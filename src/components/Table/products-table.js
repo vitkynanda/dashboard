@@ -1,27 +1,27 @@
 import * as React from "react";
 import { DataGrid, GridToolbar } from "@mui/x-data-grid";
-import { deleteUserData, getListUsers } from "constants/services/api";
+import { deleteProductData, getProductList } from "constants/services/api";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import { Chip, IconButton, Tooltip } from "@mui/material";
 import { toast } from "react-toastify";
+import RemoveRedEyeIcon from "@mui/icons-material/RemoveRedEye";
 
-// const VISIBLE_FIELDS = ["name"];
-
-export default function UsersTable() {
+export default function ProductsTable() {
   const queryClient = useQueryClient();
-  const { data, isLoading } = useQuery("users", getListUsers);
-  const { mutate: deleteUser } = useMutation((id) => deleteUserData(id), {
+  const { data, isLoading } = useQuery("products", getProductList);
+  const { mutate: deletProduct } = useMutation((id) => deleteProductData(id), {
     onSuccess: (res) => {
       if (res.statusCode === 200) {
-        toast.success("User Deleted");
+        toast.success("Product");
         queryClient.invalidateQueries("users");
       } else {
         toast.error(res.error);
       }
     },
   });
+
   const columns = [
     {
       field: "id",
@@ -34,14 +34,6 @@ export default function UsersTable() {
       flex: 1,
       renderCell: (params) => {
         return <p className="capitalize">{params.value}</p>;
-      },
-    },
-    {
-      field: "role",
-      headerName: "Role",
-      width: 200,
-      renderCell: (params) => {
-        return <p className="capitalize">{params.value.title}</p>;
       },
     },
     {
@@ -64,12 +56,17 @@ export default function UsersTable() {
       renderCell: (params) => {
         return (
           <div className="flex space-x-2">
-            <Tooltip title="Delete Users">
+            <Tooltip title="Detail Products">
+              <IconButton onClick={() => handleDetail(params.row.id)}>
+                <RemoveRedEyeIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Delete Product">
               <IconButton onClick={() => handleDelete(params.row.id)}>
                 <DeleteIcon />
               </IconButton>
             </Tooltip>
-            <Tooltip title="Edit Users">
+            <Tooltip title="Edit Product">
               <IconButton onClick={() => handleEdit(params.row.id)}>
                 <EditIcon />
               </IconButton>
@@ -80,12 +77,10 @@ export default function UsersTable() {
     },
   ];
 
-  const handleEdit = (id) => {
-    console.log(id);
-  };
+  const handleDetail = (id) => {};
+  const handleEdit = (id) => {};
   const handleDelete = (id) => {
-    console.log(id);
-    deleteUser(id);
+    deletProduct(id);
   };
 
   return (

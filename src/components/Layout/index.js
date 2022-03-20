@@ -179,7 +179,9 @@ export default function Layout({ children, title }) {
       </AppBar>
       <Drawer variant="permanent" open={open}>
         <DrawerHeader className="flex justify-between mx-2">
-          <Typography className="">Admin Panel</Typography>
+          <Typography className="text-xl text-gray-600 font-semibold">
+            Admin Panel
+          </Typography>
           <IconButton onClick={handleDrawerClose}>
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
@@ -189,58 +191,62 @@ export default function Layout({ children, title }) {
           </IconButton>
         </DrawerHeader>
         <Divider />
-        <List>
-          {customRoute.map((route, index) => (
-            <ListItemButton
-              key={index}
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                backgroundColor: route.isActive ? "lightgray" : "white",
-                px: 2.5,
-              }}
-              onClick={() => handleActiveRoute(index)}
-            >
-              <ListItemIcon
+        <div className="flex flex-col justify-between h-full">
+          <List>
+            {customRoute.map((route, index) => (
+              <ListItemButton
+                key={index}
                 sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
+                  minHeight: 48,
+                  justifyContent: open ? "initial" : "center",
+                  backgroundColor: route.isActive ? "lightgray" : "white",
+                  px: 2.5,
                 }}
+                onClick={() => handleActiveRoute(index)}
               >
-                {route.icon}
-              </ListItemIcon>
-              <ListItemText
-                primary={route.name}
-                sx={{ opacity: open ? 1 : 0 }}
-              />
-            </ListItemButton>
-          ))}
-        </List>
-        <Divider />
-        <List>
-          {["Logout"].map((text, index) => (
-            <ListItemButton
-              key={text}
-              sx={{
-                minHeight: 48,
-                justifyContent: open ? "initial" : "center",
-                px: 2.5,
-              }}
-            >
-              <ListItemIcon
-                sx={{
-                  minWidth: 0,
-                  mr: open ? 3 : "auto",
-                  justifyContent: "center",
-                }}
-              >
-                <LogoutIcon />
-              </ListItemIcon>
-              <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-            </ListItemButton>
-          ))}
-        </List>
+                <ListItemIcon
+                  sx={{
+                    minWidth: 0,
+                    mr: open ? 3 : "auto",
+                    justifyContent: "center",
+                  }}
+                >
+                  {route.icon}
+                </ListItemIcon>
+                <ListItemText
+                  primary={route.name}
+                  sx={{ opacity: open ? 1 : 0 }}
+                />
+              </ListItemButton>
+            ))}
+          </List>
+          <div>
+            <Divider />
+            <List>
+              {["Logout"].map((text, index) => (
+                <ListItemButton
+                  key={text}
+                  sx={{
+                    minHeight: 48,
+                    justifyContent: open ? "initial" : "center",
+                    px: 2.5,
+                  }}
+                >
+                  <ListItemIcon
+                    sx={{
+                      minWidth: 0,
+                      mr: open ? 3 : "auto",
+                      justifyContent: "center",
+                    }}
+                  >
+                    <LogoutIcon />
+                  </ListItemIcon>
+                  <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
+                </ListItemButton>
+              ))}
+            </List>
+          </div>
+        </div>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />
